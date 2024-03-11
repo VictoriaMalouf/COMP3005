@@ -6,5 +6,9 @@
 #
 asyncio==3.4.3
     # via -r requirements.in
-psycopg2-binary==2.9.9
+psycopg[binary]==3.1.18
     # via -r requirements.in
+psycopg-binary==3.1.18
+    # via psycopg
+typing-extensions==4.10.0
+    # via psycopg
