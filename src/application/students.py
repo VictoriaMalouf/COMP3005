@@ -21,6 +21,9 @@ async def getAllStudents():
 async def addStudent(first_name:str, last_name:str, email: str, enrollment_date: str): 
     """
     Inserts a new student record into the students table 
+
+    INSERT INTO students (first_name, last_name, email, enrollment_date) 
+    VALUES (first_name, last_name, email, enrollment_date)
     """
     async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
         async with conn.cursor() as cursor:
