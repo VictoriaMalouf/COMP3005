@@ -9,8 +9,22 @@
     - `pip-compile requirements.in`
     - `pip install -r requirements.txt`
 4. Execute students.py
-    - src > application > students.py
-    - `python3 students.py`
+    - src > application
+    - **help**:
+
+      `python3 students.py -h`
+      
+    - **getAllStudents()**:
+    
+      `python3 students.py -get`
+      
+    - **addStudent(first_name, last_name, email, enrollment_date)**:
+
+      `python3 students.py --add Selena Gomez sg@gmail.com '2024-03-12'`
+      
+    - **updateStudentEmail(student_id, new_email)**:
+
+      `python3 students.py -get`
 
 ## Link to Demonstration Video
 
