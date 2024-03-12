@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+argparse==1.4.0
+    # via -r requirements.in
 asyncio==3.4.3
     # via -r requirements.in
 psycopg[binary]==3.1.18
