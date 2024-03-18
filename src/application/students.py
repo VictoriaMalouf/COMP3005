@@ -2,6 +2,7 @@ import argparse
 import asyncio
 import psycopg
 
+# Global variables used to establish connection to DB
 dbname="COMP3005_A3"
 user="postgres"
 password="postgres"
@@ -12,12 +13,16 @@ async def getAllStudents():
     """
     Retrieves and displays all records from the students table.
     """
+    # Create an asynchronous connection
     async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
         async with conn.cursor() as cursor:
+            # Execute query
             await cursor.execute("SELECT * FROM students")
+            # Print header
             print('\nstudent_id first_name last_name    email                              enrollment_date\n')
             rows = await cursor.fetchall()
             for row in rows:
+                # Unpack tuple 
                 student_id, first_name, last_name, email, date_value = row
                 print(f'{student_id:<11}{first_name:<12}{last_name:<12}{email:<35}{date_value}')
   
@@ -25,8 +30,10 @@ async def addStudent(first_name:str, last_name:str, email: str, enrollment_date:
     """
     Inserts a new student record into the students table 
     """
+    # Create an asynchronous connection
     async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
         async with conn.cursor() as cursor:
+            # Execute query
             await cursor.execute(f"INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES ('{first_name}', '{last_name}', '{email}', '{enrollment_date}')")
 
 async def updateStudentEmail(student_id: int, new_email: str): 
@@ -34,9 +41,12 @@ async def updateStudentEmail(student_id: int, new_email: str):
     Updates the email address for a student with the specified student_id
     """
     try: 
+        # Assert that provided student id is an integer
         int(student_id)
+        # Create an asynchronous connection
         async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
             async with conn.cursor() as cursor:
+                # Execute query
                 await cursor.execute(f"UPDATE students SET email='{new_email}' WHERE student_id={student_id}")
     except:
         print("Ensure you provide a proper student id (integer value)")
@@ -47,9 +57,12 @@ async def deleteStudent(student_id: int):
     Deletes the record of the student with the specified student_id
     """
     try: 
+        # Assert that provided student id is an integer
         int(student_id)
+        # Create asynchronous connection
         async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
             async with conn.cursor() as cursor:
+                # Execute query
                 await cursor.execute(f"DELETE FROM students WHERE student_id={student_id}")
     except:
         print("Ensure you provide a proper student id (integer value)")
@@ -58,6 +71,7 @@ async def deleteStudent(student_id: int):
 def main():
     parser = argparse.ArgumentParser(description='students table - CRUD operations')
 
+    # Defining each argument for the CRUD operations
     parser.add_argument('--get', action='store_true', help='Retrieves and displays all records from the students table')
     parser.add_argument('--add', nargs=4, metavar=('first_name', 'last_name', 'email', 'enrollment_date'), help='Inserts a new student record into the students table given the first name, last name, email, and enrollement date')
     parser.add_argument('--update', nargs=2, metavar=('student_id', 'email'), help='Updates the email address for a student with the specified student_id')
@@ -65,6 +79,7 @@ def main():
 
     args = parser.parse_args()
 
+    # Calling the appropriate function given the arguments from the command line
     if args.get:
         asyncio.run(getAllStudents())
     elif args.add:
