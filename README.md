@@ -30,4 +30,5 @@ Python-based application that connects to a database to perform specific CRUD (C
       `python3 students.py -get`
 
 ## Link to Demonstration Video
-https://youtu.be/nGL0doGFqWM
+Note: The video privacy setting was set to "Unlisted" and should be accessible using the link without requiring permission.   
+https://youtu.be/dmfC1-KPQVo
