@@ -10,14 +10,16 @@ port="5432"
         
 async def getAllStudents():
     """
-    Retrieves and displays all records from the students table 
+    Retrieves and displays all records from the students table.
     """
     async with await psycopg.AsyncConnection.connect(dbname=dbname, user=user, password=password, host=host, port=port) as conn:
         async with conn.cursor() as cursor:
             await cursor.execute("SELECT * FROM students")
+            print('\nstudent_id first_name last_name    email                              enrollment_date\n')
             rows = await cursor.fetchall()
             for row in rows:
-                print(row)
+                student_id, first_name, last_name, email, date_value = row
+                print(f'{student_id:<11}{first_name:<12}{last_name:<12}{email:<35}{date_value}')
   
 async def addStudent(first_name:str, last_name:str, email: str, enrollment_date: str): 
     """
@@ -62,24 +64,8 @@ def main():
         id, email = args.update
         asyncio.run(updateStudentEmail(id, email))
     elif args.delete:
-        #id = args.delete
         asyncio.run(deleteStudent(args.delete))
 
 if __name__ == "__main__":
     main()
-    # print("getAllStudents:\n")
-    # asyncio.run(getAllStudents())
-    # print()
-    # print("addStudent:\n")
-    # asyncio.run(addStudent('Victoria', 'Malouf', 'victoriamalouf@cmail.carleton.ca', '2024-03-09'))
-    # asyncio.run(getAllStudents())
-    # print()
-    # print("updateStudentEmail:\n")
-    # asyncio.run(updateStudentEmail(4, 'victoriam@gmail.com'))
-    # asyncio.run(getAllStudents())
-    # print()
-    # print("deleteStudent:\n")
-    # asyncio.run(deleteStudent(4))
-    # asyncio.run(getAllStudents())
-    # asyncio.run(getAllStudents())
     
